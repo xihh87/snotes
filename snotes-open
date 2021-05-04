@@ -24,7 +24,6 @@ cancreate(){
 
 validnote(){
     echo $1 | grep -q -E -v \
-        -e "^/" \
         -e "(^|/)\.\./" \
         -e "(^|/)\./" \
         -e "^~[^/]*/" \
