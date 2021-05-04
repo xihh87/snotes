@@ -138,17 +138,19 @@ cd "$SNOTES_DB"
 
 SNOTES_DONTLIST_REGEXP="${SNOTES_DONTLIST_REGEXP:-^$}"
 
+IFS=:
 if [ "${SNOTES_SEARCH}" = "yes" ]; then
     regex="$(echo | m)"
     [ -n "$regex" ] || exit 0 # no regex means we don't need to search
-    select="$( (grep -risl $regex *; find . \( -path ./.git -prune -o -regex ".*$regex.*" \) -a -type f | sed -e 's:^\./::') | grep -E -v "$SNOTES_DONTLIST_REGEXP" | sort -u | m)"
+    select="$( (ag -l $regex ${SNOTES_DB}; ag -lg $regex ${SNOTES_DB}) | grep -E -v ${SNOTES_DONTLIST_REGEXP} | sort -u | m)"
 else
-    select="$(find . \( -path ./.git -prune -o -true \) -a -type f | sed -e 's:^\./::' | grep -E -v "$SNOTES_DONTLIST_REGEXP" | sort | m)"
+    select="$(fdfind . ${SNOTES_DB} --type f | grep -E -v ${SNOTES_DONTLIST_REGEXP} | sort | m)"
 fi
 
 if [ -z "$select" ]; then
     exit 0
 fi
+unset IFS
 
 case "${select##*${SNOTES_OPTION_CHAR}}" in
 blame|b)
