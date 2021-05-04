@@ -134,9 +134,9 @@ IFS=:
 if [ "${SNOTES_SEARCH}" = "yes" ]; then
     regex="$(echo | m)"
     [ -n "$regex" ] || exit 0 # no regex means we don't need to search
-    select="$( (ag -l $regex ${SNOTES_DB}; ag -lg $regex ${SNOTES_DB}) | grep -E -v ${SNOTES_DONTLIST_REGEXP} | sort -u | m)"
+    select="$( snotes-search ${regex} | snotes-ignore | sort -u | m)"
 else
-    select="$(fdfind . ${SNOTES_DB} --type f | grep -E -v ${SNOTES_DONTLIST_REGEXP} | sort | m)"
+    select="$(snotes-list | snotes-ignore | sort | m)"
 fi
 
 if [ -z "$select" ]; then
