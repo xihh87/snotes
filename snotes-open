@@ -41,8 +41,6 @@ fi
 
 [ -n "$1" ] || die "nothing to do"
 
-cd "${SNOTES_DB}"
-
 unset snotes_file
 unset snotes_file_flags
 
