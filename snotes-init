@@ -1,4 +1,31 @@
 #!/bin/sh
+
+if [ ! -f "$HOME/.snotes/config" ]; then
+    info "creating config file ~/.snotes/cofig"
+    cat > "$HOME/.snotes/config" <<'EOF'
+SNOTES_EDITOR="xterm -e ${VISUAL:-${EDITOR:-vi}}"
+SNOTES_DB="$HOME/.snotes/notes"
+
+#DMENU_ARGS="-p Open: -sb darkgreen"
+
+# clean trailing whitespace from file automatically
+SNOTES_CLEANUP="yes"
+
+# files you don't want to be cleaned
+#SNOTES_DONTCLEAN_REGEXP='^.*\.gpg$|^.*\.asc$'
+SNOTES_DONTCLEAN_REGEXP='^$'
+
+# files you don't want to see in listings and search
+SNOTES_DONTLIST_REGEXP='^(\.gitignore|.*\.swp)$'
+
+# which char should be used to prefix additional options ('changed', etc.)
+SNOTES_OPTION_CHAR='!'
+
+# how many commits should be shown for "changed:note"
+SNOTES_CHANGED_COMMITS=2
+EOF
+fi
+
 if [ ! -d "$SNOTES_DB" ]; then
     info "creating notes database '$SNOTES_DB'"
     git init -q "$SNOTES_DB" || die "cannot create '$SNOTES_DB'"
