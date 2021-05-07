@@ -134,6 +134,7 @@ fi
 case "$snotes_file_flags" in
 created)
     if [ -s "$snotes_file" ]; then
+	cd "$(dirname ${snotes_file})"
         git add -- "$snotes_file"
         git commit -q -m "created note '$snotes_file'"
     else
@@ -144,11 +145,13 @@ temp)
     rm -f "$snotes_file"
     ;;
 deleted)
+    cd "$(dirname ${snotes_file})"
     git rm -q -f -- "$snotes_file"
     git commit -q -m "removed note '$snotes_file'"
     ;;
 *)
     if ! git diff --quiet -- "$snotes_file"; then
+        cd "$(dirname ${snotes_file})"
         git add -- "$snotes_file"
         git commit -q -m "changed note '$snotes_file'"
     fi
