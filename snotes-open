@@ -94,13 +94,14 @@ do {
     rm "$tmp"
 }
 
-snotes_file="${1##*:}"
+_prefix="$(echo "${1}" | cut -f 1 -d:)"
+snotes_file="$(echo ${1} | sed -r -e "s#^${_prefix}:##")"
 
 [ -n "$snotes_file" ] || die "command with an empty argument"
 validnote "$snotes_file" || die "note name is invalid. please don't try anything fancy"
 
-
-case "${1%:*}" in
+_prefix="$(echo "${1}" | cut -f 1 -d:)"
+case "${_prefix}" in
 note)
     if [ ! -f "$snotes_file" ]; then
         cancreate "$snotes_file" && snotes_file_flags=created || die "could not create file '$(pwd)/$snotes_file'"
@@ -118,7 +119,7 @@ changed)
     changed "$snotes_file"
     ;;
 *)
-    die "unknown prefix '${1%:*}'"
+    die "unknown prefix '${_prefix}'"
     ;;
 esac
 
