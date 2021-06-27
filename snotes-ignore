@@ -1,0 +1,6 @@
+#!/usr/bin/execlineb -P
+s6-envdir /home/x/xihh/cmd/snotes.env
+importas -n IGNORE SNOTES_DONTLIST_REGEXP
+#debug
+grep -vE
+	${IGNORE}

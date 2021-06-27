@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # snotes-1.0 by v4hn / 2009-2013
 # See LICENSE file for copyright and license details.
 
@@ -38,16 +38,16 @@ IFS=:
 if [ "${SNOTES_SEARCH}" = "yes" ]; then
     regex="$(echo | dmenu -p 'Search for:')"
     [ -n "$regex" ] || exit 0 # no regex means we don't need to search
-    select="$( snotes-search ${regex} | snotes-ignore | sort -u | m)"
+    note="$( snotes-search ${regex} | snotes-ignore | sort -u | m)"
 else
-    select="$(snotes-list | snotes-ignore | sort | m)"
+    note="$(snotes-list | snotes-ignore | sort | m)"
 fi
 
-if [ -z "$select" ]; then
+if [ -z "$note" ]; then
     exit 0
 fi
 unset IFS
 
-vise "${file}"
+vise "${note}"
 
-snotes-cleanup "${file}"
+snotes-cleanup "${note}"

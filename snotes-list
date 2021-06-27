@@ -1,0 +1,8 @@
+#!/usr/bin/execlineb -P
+s6-envdir /home/x/xihh/cmd/snotes.env
+importas
+	-n # ignore end newline
+	-sd: # split by colon
+	SNOTES_DIRS SNOTES_DIRS
+#debug
+fdfind . --type f ${SNOTES_DIRS}
