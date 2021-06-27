@@ -48,15 +48,6 @@ if [ -z "$select" ]; then
 fi
 unset IFS
 
-case "${select##*${SNOTES_OPTION_CHAR}}" in
-blame|b)
-    file="blame:${select%${SNOTES_OPTION_CHAR}*}"
-    ;;
-changed|c)
-    file="changed:${select%${SNOTES_OPTION_CHAR}*}"
-    ;;
-*)
-    file="note:${select}"
-esac
+vise "${file}"
 
-exec snotes-open "$file"
+snotes-cleanup "${file}"
