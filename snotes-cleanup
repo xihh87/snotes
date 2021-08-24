@@ -6,7 +6,7 @@ function is_empty()
 	stest -vs "${1}"
 }
 
-function is_protected()
+function is_valid()
 {
 	echo "${1}" | snotes-ignore
 }
@@ -15,15 +15,16 @@ function delete_note()
 {
 	local note="${1}"
 	git rm "${note}"
-	git commit -m "deleted '${note}'" -- "${note}"
+	git commit -m "deleted '${note}'" -- "${@}"
 }
 
 function main()
 {
 	local note="${1}"
+	local dict="${2}"
 
-	if is_empty "${note}" && !is_protected "${note}"; then
-		delete_note "${note}"
+	if is_empty "${note}" && is_valid "${note}"; then
+		delete_note "${note}" "${dict}"
 	fi
 }
 
