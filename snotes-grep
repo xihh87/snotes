@@ -1,0 +1,7 @@
+#!/usr/sbin/execlineb -S0
+s6-envdir /home/x/xihh/cmd/snotes.env
+importas -nsd":\n\r\t" SNOTES_DIRS SNOTES_DIRS
+foreground {
+	ag --nopager --color ${1} ${SNOTES_DIRS}
+}
+ag --nopager --color -g ${1} ${SNOTES_DIRS}
