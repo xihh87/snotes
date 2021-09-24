@@ -48,6 +48,6 @@ if [ -z "$note" ]; then
 fi
 unset IFS
 
-vise "${note}"
+st -e vise "${note}"
 
 snotes-cleanup "${note}"
